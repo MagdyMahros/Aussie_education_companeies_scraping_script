@@ -41,7 +41,9 @@ sleep(0.5)
 password_field.submit()
 sleep(0.5)
 
-# redirecting to the search filter (Companies, LOCATION: Australia, INDUSTRY: {Education Management, Higher Education})
+# _redirecting to the search filter (Companies, LOCATION: Australia, INDUSTRY: {Education Management, Higher Education})_
+
+
 url = 'https://www.linkedin.com/search/results/companies/?companyHqGeo=%5B%22101452733%22%5D&industry=%5B%2269%22%2C%2268%22%5D&keywords=australia&origin=FACETED_SEARCH'
 
 
