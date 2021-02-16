@@ -44,7 +44,7 @@ sleep(0.5)
 # _redirecting to the search filter (Companies, LOCATION: Australia, INDUSTRY: {Education Management, Higher Education})_
 
 
-url = 'https://www.linkedin.com/search/results/companies/?companyHqGeo=%5B%22101452733%22%5D&industry=%5B%2269%22%2C%2268%22%5D&keywords=australia&origin=FACETED_SEARCH'
+url = 'https://www.linkedin.com/search/results/companies/?companyHqGeo=%5B%22101452733%22%5D&industry=%5B%2243%22%5D&keywords=&origin=FACETED_SEARCH'
 
 
 # creating the pages links
@@ -70,7 +70,7 @@ for page in pages:
     print(links_list)
 
 # save the links to text file
-companies_links_file_path = os.getcwd().replace('\\', '/') + '/companies_links.txt'
+companies_links_file_path = os.getcwd().replace('\\', '/') + '/financial_links.txt'
 with open(companies_links_file_path, 'w') as companies_links_file:
     for i in links_list:
         if i is not None and i != "" and i != "\n":

@@ -22,7 +22,7 @@ from random import randint as rand
 
 option = webdriver.ChromeOptions()
 option.add_argument(" - incognito")
-# option.add_argument("headless")
+option.add_argument("headless")
 option.add_experimental_option('excludeSwitches', ['enable-automation'])
 option.add_experimental_option('detach', True)
 exec_path = Path(os.getcwd().replace('\\', '/'))
@@ -52,7 +52,7 @@ sleep(0.5)
 
 # read the url from file into a list
 companies_links_file_path = Path(os.getcwd().replace('\\', '/'))
-companies_links_file_path = companies_links_file_path.__str__() + '/companies_links.txt'
+companies_links_file_path = companies_links_file_path.__str__() + '/financial_links.txt'
 companies_links_file = open(companies_links_file_path, 'r')
 
 # the csv file we'll be saving the courses to
@@ -82,7 +82,7 @@ for link in companies_links_file:
     linked_in_url = str(link.strip())
     about_page = linked_in_url + '/about/'
     browser.get(about_page)
-    sleep(rand(1, 5))
+    sleep(rand(1, 8))
     page_source_ = browser.page_source
     # print(page_source_)
     # print('\n\n\n\n\n\n')
@@ -99,6 +99,9 @@ for link in companies_links_file:
         name = h1_tag.get_text().strip()
         data['Name'] = name
         print('NAME: ', str(name))
+    else:
+        data['Name'] = 'null'
+        print('NAME: ', str(data['Name']))
 
     # Overview XPATH '//h4[contains(text(),"Overview")]/following-sibling::p[1]'
     # overview = soup.find('p')#, class_='break-words white-space-pre-wrap mb5 t-14 t-black--light t-normal'
@@ -316,7 +319,7 @@ for link in companies_links_file:
         dict_writer.writeheader()
         dict_writer.writerows(companies_data_all)
 
-    with open(csv_file, 'r', encoding='utf-8') as infile, open('Education_Industry_companies.csv', 'w',
+    with open(csv_file, 'r', encoding='utf-8') as infile, open('csv/financial.csv', 'w',
                                                                encoding='utf-8',
                                                                newline='') as outfile:
         writer = csv.DictWriter(outfile, fieldnames=desired_order_list)
