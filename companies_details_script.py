@@ -52,7 +52,7 @@ sleep(0.5)
 
 # read the url from file into a list
 companies_links_file_path = Path(os.getcwd().replace('\\', '/'))
-companies_links_file_path = companies_links_file_path.__str__() + '/financial_links.txt'
+companies_links_file_path = companies_links_file_path.__str__() + '/Commercial_Real_Estate_links.txt'
 companies_links_file = open(companies_links_file_path, 'r')
 
 # the csv file we'll be saving the courses to
@@ -82,7 +82,7 @@ for link in companies_links_file:
     linked_in_url = str(link.strip())
     about_page = linked_in_url + '/about/'
     browser.get(about_page)
-    sleep(rand(1, 8))
+    sleep(rand(1, 7))
     page_source_ = browser.page_source
     # print(page_source_)
     # print('\n\n\n\n\n\n')
@@ -182,6 +182,18 @@ for link in companies_links_file:
         print('Type not found!')
         data['Type'] = 'null'
 
+    # Founded
+    try:
+        data['Founded'] = soup.find('dt', text=re.compile('Founded', re.IGNORECASE)).find_next(
+            'dd').get_text().strip()
+        print('FOUNDED: ', str(data['Founded']))
+    except TimeoutException:
+        print('Founded not found!')
+        data['Founded'] = 'null'
+    except AttributeError:
+        print('Founded not found!')
+        data['Founded'] = 'null'
+
     # Location
     try:
         data['Location'] = soup.find('p', class_='t-14 t-black--light t-normal break-words').get_text().strip()
@@ -228,64 +240,65 @@ for link in companies_links_file:
         '''
 
         for index, location in enumerate(location_list):
-            data['Address_' + str(index)] = 'null'
-            data['Latitude_' + str(index)] = 'null'
-            data['Longitude_' + str(index)] = 'null'
-            data['City_' + str(index)] = 'null'
-            data['Location_description_' + str(index)] = 'null'
-            data['Country'] = 'null'
-            try:
+            if index < 4:
+                data['Address_' + str(index)] = 'null'
+                data['Latitude_' + str(index)] = 'null'
+                data['Longitude_' + str(index)] = 'null'
+                data['City_' + str(index)] = 'null'
+                data['Location_description_' + str(index)] = 'null'
+                data['Country'] = 'null'
                 try:
-                    city_name = location_list[index]['localizedName']
-                except KeyError:
-                    city_name = 'null'
-                try:
-                    location_description = location_list[index]['locations'][0]['description']
-                except KeyError:
-                    location_description = 'null'
-                try:
-                    street = location_list[index]['locations'][0]['line1']
-                except KeyError:
-                    street = 'null'
-                try:
-                    city = location_list[index]['locations'][0]['city']
-                except KeyError:
-                    city = 'null'
-                try:
-                    geographic_area = location_list[index]['locations'][0]['geographicArea']
-                except KeyError:
-                    geographic_area = 'null'
-                try:
-                    postcode = location_list[index]['locations'][0]['postalCode']
-                except KeyError:
-                    postcode = 'null'
-                try:
-                    country = location_list[index]['locations'][0]['country']
-                except KeyError:
-                    country = 'null'
-                try:
-                    json_headquarters = location_list[index]['locations'][0]['headquarter']
-                except KeyError:
-                    json_headquarters = 'null'
-                try:
-                    lat = location_list[index]['latLong']['latitude']
-                    lng = location_list[index]['latLong']['longitude']
-                except KeyError:
-                    lat = 'null'
-                    lng = 'null'
-                address = str(street) + ', ' + str(city) + ', ' + str(geographic_area) + ', ' + str(
-                    postcode) + ', ' + str(country)
-                data['Address_' + str(index)] = address
-                data['Latitude_' + str(index)] = lat
-                data['Longitude_' + str(index)] = lng
-                data['City_' + str(index)] = city
-                data['Location_description_' + str(index)] = location_description
-                data['Country'] = country
-                print('ADDRESS' + str(index) + ': ', str(data['Address_' + str(index)]))
-                print('LNG' + str(index) + ': ', str(data['Longitude_' + str(index)]))
-                print('LAT' + str(index) + ': ', str(data['Latitude_' + str(index)]))
-            except IndexError:
-                print('index error happened')
+                    try:
+                        city_name = location_list[index]['localizedName']
+                    except KeyError:
+                        city_name = 'null'
+                    try:
+                        location_description = location_list[index]['locations'][0]['description']
+                    except KeyError:
+                        location_description = 'null'
+                    try:
+                        street = location_list[index]['locations'][0]['line1']
+                    except KeyError:
+                        street = 'null'
+                    try:
+                        city = location_list[index]['locations'][0]['city']
+                    except KeyError:
+                        city = 'null'
+                    try:
+                        geographic_area = location_list[index]['locations'][0]['geographicArea']
+                    except KeyError:
+                        geographic_area = 'null'
+                    try:
+                        postcode = location_list[index]['locations'][0]['postalCode']
+                    except KeyError:
+                        postcode = 'null'
+                    try:
+                        country = location_list[index]['locations'][0]['country']
+                    except KeyError:
+                        country = 'null'
+                    try:
+                        json_headquarters = location_list[index]['locations'][0]['headquarter']
+                    except KeyError:
+                        json_headquarters = 'null'
+                    try:
+                        lat = location_list[index]['latLong']['latitude']
+                        lng = location_list[index]['latLong']['longitude']
+                    except KeyError:
+                        lat = 'null'
+                        lng = 'null'
+                    address = str(street) + ', ' + str(city) + ', ' + str(geographic_area) + ', ' + str(
+                        postcode) + ', ' + str(country)
+                    data['Address_' + str(index)] = address
+                    data['Latitude_' + str(index)] = lat
+                    data['Longitude_' + str(index)] = lng
+                    data['City_' + str(index)] = city
+                    data['Location_description_' + str(index)] = location_description
+                    data['Country'] = country
+                    print('ADDRESS' + str(index) + ': ', str(data['Address_' + str(index)]))
+                    print('LNG' + str(index) + ': ', str(data['Longitude_' + str(index)]))
+                    print('LAT' + str(index) + ': ', str(data['Latitude_' + str(index)]))
+                except IndexError:
+                    print('index error happened')
     except AttributeError:
         print('Attr: Code tag not found!')
     except NoSuchElementException:
@@ -319,7 +332,7 @@ for link in companies_links_file:
         dict_writer.writeheader()
         dict_writer.writerows(companies_data_all)
 
-    with open(csv_file, 'r', encoding='utf-8') as infile, open('csv/financial.csv', 'w',
+    with open(csv_file, 'r', encoding='utf-8') as infile, open('csv/Commercial_Real_Estate.csv', 'w',
                                                                encoding='utf-8',
                                                                newline='') as outfile:
         writer = csv.DictWriter(outfile, fieldnames=desired_order_list)

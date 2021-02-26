@@ -44,13 +44,13 @@ sleep(0.5)
 # _redirecting to the search filter (Companies, LOCATION: Australia, INDUSTRY: {Education Management, Higher Education})_
 
 
-url = 'https://www.linkedin.com/search/results/companies/?companyHqGeo=%5B%22101452733%22%5D&industry=%5B%2243%22%5D&keywords=&origin=FACETED_SEARCH'
+url = 'https://www.linkedin.com/search/results/companies/?companyHqGeo=%5B%22101452733%22%5D&industry=%5B%22128%22%5D&origin=FACETED_SEARCH'
 
 
 # creating the pages links
 pages = set()
 i = 1
-while i <= 100:
+while i <= 71:
     curl_url = url + '&page=' + str(i)
     pages.add(curl_url)
     i += 1
@@ -70,7 +70,7 @@ for page in pages:
     print(links_list)
 
 # save the links to text file
-companies_links_file_path = os.getcwd().replace('\\', '/') + '/financial_links.txt'
+companies_links_file_path = os.getcwd().replace('\\', '/') + '/Commercial_Real_Estate_links.txt'
 with open(companies_links_file_path, 'w') as companies_links_file:
     for i in links_list:
         if i is not None and i != "" and i != "\n":
